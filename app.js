@@ -23,6 +23,9 @@ document.querySelectorAll('.tab').forEach(tab => {
     });
 });
 
+let tg = window.Telegram.WebApp
+tg.expand()
+
 // Assuming you're getting JSON data from a Google Sheets API or a web app
 const SHEET_API_URL = "https://script.google.com/macros/s/AKfycbxFUbOJrKl-t3MHN9aIfoIuL4pqpPsxtH3TXDBV6aHswelzpKyNYyiPn2xQzp4ryikJsg/exec"; // Replace with your actual Sheets API URL
 
