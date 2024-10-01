@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto Price Monitor</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <header>
+        <div class="logo">BotLogo</div>
+        <h1>Crypto Price Monitor</h1>
+        <p>Real-time price alerts at your fingertips!</p>
+        <div class="header-stats">
+            <span>Total Invest: <span id="total-invest">$0</span></span> <span id="total-ratio"></span><br>
+            <span>Balance: <span id="balance">$0</span></span>
+        </div>
+    </header>
+
+    <!-- Add a notification container to the HTML -->
+    <div id="notification-container" role="alert" aria-live="assertive" aria-atomic="true"></div>
+    <!-- ... rest of the HTML ... -->
+
+    <main>
+        <!-- Tabs Section -->
+        <section class="tabs">
+            <div class="tab active" data-tab="crypto-cards-container">Crypto Cards</div>
+            <div class="tab" data-tab="add-crypto">Add Crypto</div>
+            <div class="tab" data-tab="full-analyse">Full Analyse</div>
+        </section>
+
+        <section id="crypto-cards-container" class="tab-content active">
+            <h2>Crypto Prices</h2>
+            <button id="refresh">Refresh Prices</button>
+            <!--Lodding-->
+            <div class="loading active" id="loading-indicator">
+                <span style="--i:1;"></span>
+                <span style="--i:2;"></span>
+                <span style="--i:3;"></span>
+                <span style="--i:4;"></span>
+                <span style="--i:5;"></span>
+                <span style="--i:6;"></span>
+                <span style="--i:7;"></span>
+                <span style="--i:8;"></span>
+                <span style="--i:9;"></span>
+                <span style="--i:10;"></span>
+                <span style="--i:11;"></span>
+                <span style="--i:12;"></span>
+                <span style="--i:13;"></span>
+                <span style="--i:14;"></span>
+                <span style="--i:15;"></span>
+                <span style="--i:16;"></span>
+                <span style="--i:17;"></span>
+                <span style="--i:18;"></span>
+                <span style="--i:19;"></span>
+                <span style="--i:20;"></span>
+                <span style="--i:21;"></span>
+                <span style="--i:22;"></span>
+                <span style="--i:23;"></span>
+                <span style="--i:24;"></span>
+                <span style="--i:25;"></span>
+                <span style="--i:26;"></span>
+                <span style="--i:27;"></span>
+                <span style="--i:28;"></span>
+                <span style="--i:29;"></span>
+                <span style="--i:30;"></span>
+            </div>
+            <div id="crypto-cards" class="crypto-cards">
+                <!-- Crypto cards will be generated here dynamically -->
+            </div>
+            
+        </section>
+        <!-- Add Crypto Tab -->
+        <section id="add-crypto" class="tab-content">
+            <h2>Add a New Crypto</h2>
+            <form id="add-crypto-form">
+                <label>
+                    Crypto Name:
+                    <input type="text" id="crypto-name" placeholder="e.g., Bitcoin">
+                </label>
+                <label>
+                    Symbol:
+                    <input type="text" id="crypto-symbol" placeholder="e.g., BTC">
+                </label>
+                <label>
+                    Current Price:
+                    <input type="number" id="crypto-price" placeholder="e.g., 30000">
+                </label>
+                <label>
+                    My Price:
+                    <input type="number" id="crypto-myPrice" placeholder="e.g., 25000">
+                </label>
+                <label>
+                    Amount:
+                    <input type="number" id="crypto-amount" placeholder="e.g., 1200">
+                </label>
+                <label>
+                    Portfolio Share (%):
+                    <input type="number" id="crypto-portfolio-share" placeholder="e.g., 15">
+                </label>
+                <button type="button" onclick="addCrypto()">Add Crypto</button>
+            </form>
+        </section>
+
+        <!-- Full Analysis Tab -->
+        <section id="full-analyse" class="tab-content">
+            <h2>Full Analysis</h2>
+            <p>Placeholder for full portfolio analysis</p>
+        </section>
+    </main>
+    <script src="app.js"></script>
+    
+</body>
+
+</html>

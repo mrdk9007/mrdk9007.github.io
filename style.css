@@ -1,0 +1,286 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+
+.loading {
+    display: none;
+}
+
+.loading.active {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loading span {
+    position: relative;
+    width: 20px;
+    height: 5px;
+}
+
+.loading span::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: #0f0;
+    box-shadow: 0 0 5px #0f0,
+        0 0 15px #0f0,
+        0 0 30px #0f0,
+        0 0 50px #0f0;
+    animation: animate 8s linear infinite;
+    animation-delay: calc(var(--i) * 0.1s);
+}
+
+@keyframes animate {
+    0% {
+        transform-origin: 0 20px;
+        filter: hue-rotate(0deg);
+    }
+
+    20% {
+        transform: rotate(calc(-90deg * var(--i)));
+    }
+
+    60% {
+        transform: rotate(calc(0deg * var(--i)));
+    }
+
+    100% {
+        filter: hue-rotate(360deg);
+    }
+}
+
+header {
+    background-color: #282c34;
+    padding: 20px;
+    text-align: center;
+    color: white;
+}
+
+/* Styles for the tabbed interface */
+.tabs {
+    display: flex;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.tab {
+    flex: 1;
+    padding: 10px;
+    text-align: center;
+    background-color: #ddd;
+    border: 1px solid #ccc;
+    margin-right: 5px;
+    border-radius: 12px;
+}
+
+.tab.active {
+    background-color: #007BFF;
+    color: white;
+}
+
+.tab-content {
+    display: none;
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Add styles for crypto cards */
+.crypto-cards-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.crypto-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    align-items: center;
+    margin: 20px 0;
+    row-gap: 20px;
+}
+
+.crypto-card {
+    display: flex;
+    justify-content: space-between;
+    min-width: 95%;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 15px;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05),
+        0 2px 10px rgba(0, 0, 0, 0.05),
+        0 2px 15px rgba(0, 0, 0, 0.05),
+        0 2px 20px rgba(0, 0, 0, 0.05);
+}
+
+.crypto-info {
+    width: 50%;
+}
+
+.crypto-diagram {
+    width: 22%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+canvas {
+    height: auto;
+}
+
+.price-change-my-price.up {
+    color: green;
+}
+
+.price-change-my-price.down {
+    color: red;
+}
+
+.price-change-current.down {
+    color: green;
+}
+
+.price-change-current.down {
+    color: red;
+}
+
+.price.up {
+    color: green;
+    font-weight: 600;
+}
+
+.price.down {
+    color: red;
+    font-weight: 600;
+}
+
+button {
+    background-color: #007BFF;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    margin: 10px 0;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+
+/* Media Query for Larger Screens */
+@media (max-width: 1584px) {
+    .crypto-cards {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+
+    .crypto-card {
+        width: 100%;
+    }
+}
+
+@media (max-width: 767px) {
+    .crypto-cards {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        gap: 15px;
+    }
+
+    .crypto-card {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .crypto-cards {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        gap: 15px;
+    }
+
+    .crypto-card {
+        width: 100%;
+    }
+
+    .crypto-diagram {
+        display: none;
+    }
+
+    .crypto-info {
+        width: 100%;
+    }
+}
+
+#add-crypto-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Hide the scrollbar but allow vertical scrolling */
+body {
+    overflow-y: hidden;
+    /* Disable scrolling on the body */
+}
+
+/* Apply this to the specific container where you want to hide the scrollbar but keep scrolling */
+.crypto-cards-container {
+    overflow-y: auto;
+    /* Enable vertical scrolling */
+    max-height: 90vh;
+    /* Ensure the container doesn't grow beyond the viewport */
+    scrollbar-width: none;
+    /* For Firefox */
+}
+
+.crypto-cards-container::-webkit-scrollbar {
+    display: none;
+    /* For WebKit-based browsers like Chrome */
+}
+
+/* You can do the same for any other scrollable container */
+.tab-content {
+    overflow-y: auto;
+    /* Allow scrolling in tab content */
+    max-height: 100vh;
+    /* Fit the content inside the viewport */
+    scrollbar-width: none;
+}
+
+.tab-content::-webkit-scrollbar {
+    display: none;
+}
+
+.notification {
+    position: fixed;
+    top: 0;
+    right: 0;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.notification.error {
+    background-color: #fcc;
+    border-color: #f00;
+}
