@@ -178,10 +178,10 @@ function generateCryptoCard(crypto) {
 
     popUpOrderHistoryInfo.innerHTML = `
         <div class="info-left">2022-06-22<br>2022-06-22<br>2022-06-22<br>2022-06-22<br>2022-06-22</div>
-        <div class="info-center">bought<br>bought<br>bought<br>stacking reward<br>bought</div>
-        <div class="info-right">3 ${crypto.symbol}<br>3 ${crypto.symbol}<br>3 ${crypto.symbol}<br>3 ${crypto.symbol}<br>3 ${crypto.symbol}</div>
-        <div class="info-right">$42.3<br>$42.3<br>$42.3<br><br>$42.3</div>
-        <div class="info-right">$126.9<br>$126.9<br>$126.9<br><br>$126.9</div>
+        <div class="info-center">bought<br>bought<br>bought<br>stacking<br>sold</div>
+        <div class="info-right">3 ${crypto.symbol}<br>3 ${crypto.symbol}<br>3 ${crypto.symbol}<br>3 ${crypto.symbol}<br>-3 ${crypto.symbol}</div>
+        <div class="info-right">$42.3<br>$42.3<br>$42.3<br><br>-$42.3</div>
+        <div class="info-right">$126.9<br>$126.9<br>$126.9<br><br>-$126.9</div>
     `;
     // Append card to the container
     
