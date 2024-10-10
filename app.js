@@ -23,8 +23,7 @@ document.querySelectorAll('.tab').forEach(tab => {
     });
 });
 
-let tg = window.Telegram.WebApp
-tg.expand()
+
 
 // Assuming you're getting JSON data from a Google Sheets API or a web app
 const SHEET_API_URL = "https://script.google.com/macros/s/AKfycbxFUbOJrKl-t3MHN9aIfoIuL4pqpPsxtH3TXDBV6aHswelzpKyNYyiPn2xQzp4ryikJsg/exec"; // Replace with your actual Sheets API URL
@@ -36,6 +35,15 @@ async function fetchCryptoData() {
 
         // Iterate over the data (assuming it's an array of crypto assets)
         if (data.length > 0) {
+            const dropdown = document.getElementById('cryptoDropdown');
+            const option = document.createElement('option');
+                option.classList.add('subtext')
+                option.value = "";
+                option.selected = true
+                option.disabled = true
+                option.text = `Select a token`;
+                dropdown.appendChild(option);
+
             let totalInvest = 0
             let balance = 0
             await new Promise(resolve => setTimeout(resolve, 5500))
@@ -46,7 +54,13 @@ async function fetchCryptoData() {
                 balance += crypto.balance;
                 generateCryptoCard(crypto)
 
+                const option = document.createElement('option');
+                option.classList.add('subtext')
+                option.value = crypto.symbol;
+                option.innerHTML = `${crypto.name} (${crypto.symbol})`;
+                dropdown.appendChild(option);
             })
+
             var ratio = 100 * balance / totalInvest
 
             var score = balance / totalInvest
@@ -56,14 +70,17 @@ async function fetchCryptoData() {
                 var maxScore = score + 2
             }
             animateMarkToScore(score, maxScore)
-            document.getElementById('scoreValue').innerText = `${score.toFixed(2)}x`; // Update score display
 
-            document.getElementById('total-invest').innerText = `$${totalInvest.toLocaleString()}`;
+            document.getElementById('scoreValue').innerText = `${score.toFixed(2)}x`; // Update score display
+            document.getElementById('invested').innerText = `$${totalInvest.toLocaleString()}`;
             document.getElementById('balance').innerText = `$${balance.toLocaleString()}`;
             document.getElementById('total-ratio').innerHTML = `<span class="price ${ratio >= 100 ? 'up' : 'down'}">
-                ${ratio >= 100 ? '⬆' : '⬇'} (${ratio.toLocaleString()}%)
+                ${ratio >= 100 ? '⬆' : '⬇'}(${ratio.toLocaleString()}%)
             </span>`
+
+
         }
+
 
     } catch (error) {
         console.error('Error fetching data:', error);
@@ -184,7 +201,7 @@ function generateCryptoCard(crypto) {
         <div class="info-right">$126.9<br>$126.9<br>$126.9<br><br>-$126.9</div>
     `;
     // Append card to the container
-    
+
     popUpOrderHistory.appendChild(popUpOrderHistoryInfo);
     popupContent.appendChild(popUpOrderHistory);
 
@@ -216,7 +233,7 @@ function generateCryptoCard(crypto) {
 
     const diagramContainer = document.createElement('div');
     diagramContainer.classList.add('crypto-diagrams');
-    
+
     popUpDiagramContainer.appendChild(diagramContainer);
 
     // Right Column - First Crypto Diagram
@@ -235,7 +252,7 @@ function generateCryptoCard(crypto) {
     diagramContainer2.appendChild(canvas2);
     diagramContainer.appendChild(diagramContainer2);
 
-    
+
     popupContent.appendChild(popUpDiagramContainer);
 
     const closeButton = document.createElement('button');
@@ -520,3 +537,4 @@ function animateMarkToScore(newScore, maxScore) {
         moveMark(currentScore, maxScore);
     }, intervalTime);
 }
+
