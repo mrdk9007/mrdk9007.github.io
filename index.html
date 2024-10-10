@@ -12,13 +12,13 @@
 
 <body>
     <header>
-        <div class="logo">BotLogo</div>
+        <div class="header-info">
+            <div class="logo">Logo</div>
 
-        <div class="header-stats">
-            <h1>Crypto Price Monitor</h1>
-            <p>Real-time price alerts at your fingertips!</p>
-            <span>Total Invest: <span id="total-invest">$0</span></span> <span id="total-ratio"></span><br>
-            <span>Balance: <span id="balance">$0</span></span>
+            <div class="header-stats">
+                <span>Invested: <span id="invested">$0</span></span> <span id="total-ratio"></span><br>
+                <span>Balance: <span id="balance">$0</span></span>
+            </div>
         </div>
         <div class="container">
             <div class="rectangle">
@@ -29,6 +29,7 @@
             <div class="score"><span id="scoreValue">0.00x</span></div>
             <div class="triangle-up"></div>
         </div>
+
     </header>
 
     <!-- Add a notification container to the HTML -->
@@ -36,13 +37,6 @@
     <!-- ... rest of the HTML ... -->
 
     <main>
-        <!-- Tabs Section -->
-        <section class="tabs">
-            <div class="tab active" data-tab="crypto-cards-container">Crypto Cards</div>
-            <div class="tab" data-tab="add-crypto">Add Crypto</div>
-            <div class="tab" data-tab="full-analyse">Full Analyse</div>
-        </section>
-
         <section id="crypto-cards-container" class="tab-content active">
             <h2>Crypto Prices</h2>
             <button id="refresh">Refresh Prices</button>
@@ -85,34 +79,35 @@
 
         </section>
         <!-- Add Crypto Tab -->
-        <section id="add-crypto" class="tab-content">
-            <h2>Add a New Crypto</h2>
-            <form id="add-crypto-form">
-                <label>
-                    Crypto Name:
-                    <input type="text" id="crypto-name" placeholder="e.g., Bitcoin">
-                </label>
-                <label>
-                    Symbol:
-                    <input type="text" id="crypto-symbol" placeholder="e.g., BTC">
-                </label>
-                <label>
-                    Current Price:
+        <section id="add-crypto" class="tab-content subtext">
+            <form id="add-crypto-form" class="crypto-form">
+                <div class="form-group">
+                    <label for="cryptoDropdown">Select Crypto</label>
+                    <div class="dropdown">
+                        <select id="cryptoDropdown">
+                            <!-- Options will be generated here -->
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="crypto-price">Current Price $</label>
                     <input type="number" id="crypto-price" placeholder="e.g., 30000">
-                </label>
-                <label>
-                    My Price:
-                    <input type="number" id="crypto-myPrice" placeholder="e.g., 25000">
-                </label>
-                <label>
-                    Amount:
+                </div>
+
+                <div class="form-group">
+                    <label for="crypto-amount">Amount</label>
                     <input type="number" id="crypto-amount" placeholder="e.g., 1200">
-                </label>
-                <label>
-                    Portfolio Share (%):
-                    <input type="number" id="crypto-portfolio-share" placeholder="e.g., 15">
-                </label>
-                <button type="button" onclick="addCrypto()">Add Crypto</button>
+                </div>
+
+                <div class="form-group">
+                    <label for="date">Date</label>
+                    <input type="date" id="date">
+                </div>
+
+                <div class="form-group">
+                    <button type="button" class="btn" onclick="addCrypto()">Add Crypto</button>
+                </div>
             </form>
         </section>
 
@@ -122,7 +117,15 @@
             <p>Placeholder for full portfolio analysis</p>
             <div id="bubble-container" class="bubble-container"></div>
         </section>
+
     </main>
+    <!-- Tabs Section -->
+    <footer class="tabs subtext">
+        <div class="tab active" data-tab="crypto-cards-container">Crypto Cards</div>
+        <div class="tab" data-tab="add-crypto">Add Crypto</div>
+        <div class="tab" data-tab="full-analyse">Full Analyse</div>
+    </footer>
+
     <script src="app.js"></script>
     <script>
         let tg = window.Telegram.WebApp;
