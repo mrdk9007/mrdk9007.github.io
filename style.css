@@ -1,11 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 
 :root {
-    --hs-width: 200px;
+    --hs-width: 150px;
     --hs-height: calc(var(--hs-width) / 2);
-    --hs-thickness: 15px;
+    --hs-thickness: 10px;
     --hs-before-width: calc(var(--hs-width) - 2 * var(--hs-thickness));
     --hs-before-height: calc(var(--hs-height) - var(--hs-thickness));
+    --header-color: var(--tg-theme-bg-color, #282c34);
 }
 
 * {
@@ -20,9 +21,22 @@ body {
     color: #333;
 }
 
-/*background: conic-gradient(from 270deg at bottom, red 0deg, orange 45deg, yellow 80deg, green 120deg,  blue 160deg);*/
+/* Hide arrows in WebKit browsers (Chrome, Safari, Edge) */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Hide arrows in Firefox */
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+
 .container {
     position: relative;
+    height: var(--hs-height);
 }
 
 .rectangle {
@@ -39,14 +53,40 @@ body {
     bottom: 0;
     left: 0;
     width: var(--hs-width);
-    /* Matches the rectangle's width */
     height: var(--hs-height);
-    /* This is the height for the semicircle */
     border-top-left-radius: var(--hs-width);
-    /* Radius for the semicircle */
     border-top-right-radius: var(--hs-width);
-    /* Radius for the semicircle */
-    background: conic-gradient(from 270deg at bottom, red 0deg, orange 45deg, yellow 80deg, green 120deg, blue 160deg);
+    background: conic-gradient(from 270deg at bottom,
+            rgb(255, 0, 0) 0deg,
+            orange 45deg,
+            yellow 80deg,
+            rgb(8, 173, 8) 120deg,
+            rgb(0, 68, 255) 160deg,
+            rgb(0, 68, 255) 180deg,
+            red);
+}
+
+.semicircle::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    /* Position slightly outside the semicircle */
+    left: 0;
+    width: var(--hs-width);
+    /* Make the shadow larger */
+    height: var(--hs-height);
+    border-top-left-radius: var(--hs-width);
+    border-top-right-radius: var(--hs-width);
+    background: conic-gradient(from 270deg at bottom,
+            rgba(255, 0, 0, 0.2) 0deg,
+            rgba(255, 165, 0, 0.2) 45deg,
+            rgba(255, 255, 0, 0.2) 80deg,
+            rgba(8, 173, 8, 0.2) 120deg,
+            rgba(0, 68, 255, 0.2) 160deg,
+            rgba(0, 68, 255, 0.2) 180deg,
+            rgba(255, 0, 0, 0.2));
+    filter: blur(10px);
+    /* Add blur to make it shadow-like */
 }
 
 .semicircle::before {
@@ -56,16 +96,16 @@ body {
     left: var(--hs-thickness);
     width: var(--hs-before-width);
     height: var(--hs-before-height);
-    background-color: #282c34;
+    background-color: var(--header-color);
     border-radius: var(--hs-before-height) var(--hs-before-height) 0 0;
-    z-index: 1;
+
 }
 
 .mark {
     position: absolute;
-    width: 6px;
+    width: 3px;
     /* Mark radius */
-    height: 25px;
+    height: 15px;
     /* Mark radius */
     /*border-radius: 50%;*/
     transform-origin: center;
@@ -74,10 +114,11 @@ body {
     /* Smooth movement */
     width: 0;
     height: 0;
-    border-left: 3px solid transparent;
-    border-right: 3px solid transparent;
-    border-top: 25px solid #fff;
+    border-left: 2px solid transparent;
+    border-right: 2px solid transparent;
+    border-top: 15px solid #fff;
     /* Color of the triangle */
+    z-index: 1;
 }
 
 /* Score in the center */
@@ -86,9 +127,10 @@ body {
     top: 100%;
     left: 50%;
     transform: translate(-50%, -100%);
-    font-size: 24px;
+    font-size: 16px;
     font-weight: bold;
     z-index: 2;
+    line-height: 0.8;
 }
 
 .loading {
@@ -142,27 +184,40 @@ body {
 
 header {
     display: flex;
-    background-color: #282c34;
-    padding: 20px;
-    text-align: center;
+    justify-content: space-between;
+    background-color: var(--header-color);
+    padding: 5px;
+
     color: white;
+}
+
+.header-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
 }
 
 /* Styles for the tabbed interface */
 .tabs {
     display: flex;
     cursor: pointer;
-    margin-bottom: 10px;
 }
 
 .tab {
     flex: 1;
-    padding: 10px;
+    padding: 5px;
     text-align: center;
     background-color: #ddd;
     border: 1px solid #ccc;
-    margin-right: 5px;
-    border-radius: 12px;
+    border-radius: 8px 8px 0 0;
+    box-shadow: -1px -5px 15px #ccc;
 }
 
 .tab.active {
@@ -244,7 +299,7 @@ header {
     grid-template-columns: repeat(5, 1fr);
     justify-content: space-between;
 
-} 
+}
 
 /* Add styles for the popup container and content */
 .crypto-card .popup-container {
@@ -262,7 +317,7 @@ header {
 
 .crypto-card .popup-content {
     background-color: #fff;
-    padding: 0 10px;
+    padding: 0 8px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     width: 99%;
@@ -284,7 +339,7 @@ header {
     animation: slideUp 0.3s forwards;
 
     & .crypto-card {
-        margin: 10px 0;
+        margin: 8px 0;
     }
 }
 
@@ -330,7 +385,7 @@ header {
 
 .legend {
     width: 35%;
-    
+
 }
 
 .legend-info {
@@ -349,6 +404,7 @@ header {
         background-color: #6e7eb3;
     }
 }
+
 .crypto-diagrams {
     display: flex;
     height: 100px;
@@ -382,12 +438,12 @@ canvas {
     color: red;
 }
 
-.subtext.up {
+.up {
     color: green;
     font-weight: 600;
 }
 
-.subtext.down {
+.down {
     color: red;
     font-weight: 600;
 }
@@ -447,7 +503,7 @@ button:hover {
     .crypto-cards {
         display: grid;
         grid-template-columns: repeat(1, 1fr);
-        gap: 10px;
+        gap: 8px;
         margin: 0;
     }
 
@@ -456,7 +512,7 @@ button:hover {
         padding: 5px;
     }
 
-    
+
 
     .crypto-info {
         width: 100%;
@@ -467,11 +523,7 @@ button:hover {
     }
 }
 
-#add-crypto-form {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
+
 
 /* Hide the scrollbar but allow vertical scrolling */
 /*body {
@@ -521,4 +573,71 @@ button:hover {
 .notification.error {
     background-color: #fcc;
     border-color: #f00;
+}
+
+.crypto-form {
+    max-width: 100%;
+    margin: 0 auto;
+    border: 1px solid #EDEDED;
+    border-radius: 8px;
+    padding: 8px;
+    background-color: #EDEDED;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05),
+        0 2px 8px rgba(0, 0, 0, 0.05),
+        0 2px 12px rgba(0, 0, 0, 0.05),
+        0 2px 15px rgba(0, 0, 0, 0.05);
+}
+
+.form-group {
+    margin-bottom: 8px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    margin-bottom: 2px;
+    font-weight: 600;
+}
+
+input[type="number"],
+input[type="date"],
+select {
+    color: #282c34;
+    font-size: 12px;
+    padding: 4px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+}
+
+.dropdown select {
+    appearance: none;
+    background-color: #fff;
+    color: #333;
+}
+
+.dropdown select:focus,
+input[type="number"]:focus,
+input[type="date"]:focus,
+select:focus {
+    border-color: #007bff;
+    outline: none;
+    font-size: 12px;
+    /* Change the font size if needed */
+}
+
+button.btn {
+    padding: 4px;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+button.btn:hover {
+    background-color: #0056b3;
 }
