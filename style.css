@@ -19,6 +19,7 @@ body {
     font-family: Dosis;
     background-color: #f4f4f4;
     color: #333;
+    font-size: 12px;
 }
 
 /* Hide arrows in WebKit browsers (Chrome, Safari, Edge) */
@@ -212,7 +213,7 @@ footer {
 
 .tab {
     flex: 1;
-    padding: 5px;
+    padding: 6px;
     text-align: center;
     background-color: #ddd;
     border: 1px solid #ccc;
@@ -233,6 +234,7 @@ footer {
 
 .tab-content.active {
     display: block;
+    padding-bottom: 40px;
 }
 
 /* Add styles for crypto cards */
@@ -247,11 +249,9 @@ footer {
     grid-template-columns: repeat(5, 1fr);
     gap: 15px;
     align-items: center;
-    margin: 20px;
 }
 
 .crypto-card {
-    font-size: 16px;
     display: flex;
     min-width: 100%;
     border: 1px solid #EDEDED;
@@ -267,7 +267,7 @@ footer {
     & .icon {
         display: flex;
         justify-content: center;
-        align-items: start;
+        align-items: center;
     }
 
     & .info {
@@ -281,9 +281,13 @@ footer {
     }
 }
 
+.main-text {
+    font-size: 16px;
+}
 .subtext {
     font-size: 12px;
     color: #717171;
+    line-height: 1.2;
 }
 
 .info-right {
@@ -317,7 +321,7 @@ footer {
 
 .crypto-card .popup-content {
     background-color: #fff;
-    padding: 0 8px;
+    padding: 8px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     width: 99%;
@@ -327,8 +331,19 @@ footer {
     transform: translateY(100%);
     transition: transform 0.3s ease-in-out;
 
-
+    & .icon {
+        display: flex;
+        align-items: start;
+    }
 }
+
+.popup-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+}
+
 
 .crypto-card .popup-container.open {
     display: flex;
@@ -369,18 +384,21 @@ footer {
 }
 
 .popup-content .popup-close {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background-color: transparent;
+    height: 20px;
+    width: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #007BFF;
+    border-radius: 50%;
     border: none;
-    padding: 10px 20px;
-    font-size: 16px;
     cursor: pointer;
+    transition: 0.5s;
 }
 
 .popup-content .popup-close:hover {
     background-color: #ccc;
+    transform: rotate(315deg);
 }
 
 .legend {
@@ -390,7 +408,7 @@ footer {
 
 .legend-info {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr 4fr;
     row-gap: 5px;
     margin-top: 5px;
 
@@ -402,6 +420,11 @@ footer {
     & .color-block-balance {
         width: 75%;
         background-color: #6e7eb3;
+    }
+
+    & .color-block-other {
+        width: 75%;
+        background-color: #ffcd56;
     }
 }
 
@@ -422,39 +445,21 @@ canvas {
     height: auto;
 }
 
-.price-change-my-price.up {
-    color: green;
-}
-
-.price-change-my-price.down {
-    color: red;
-}
-
-.price-change-current.down {
-    color: green;
-}
-
-.price-change-current.down {
-    color: red;
-}
-
 .up {
-    color: green;
+    color: rgb(25, 185, 25);
     font-weight: 600;
 }
 
 .down {
-    color: red;
+    color: rgb(228, 47, 47);
     font-weight: 600;
 }
 
 button {
     background-color: #007BFF;
     color: white;
-    padding: 10px 20px;
     border: none;
     cursor: pointer;
-    margin: 10px 0;
 }
 
 button:hover {
@@ -576,6 +581,7 @@ button:hover {
 }
 
 .crypto-form {
+    display: grid;
     max-width: 100%;
     margin: 0 auto;
     border: 1px solid #EDEDED;
@@ -629,7 +635,7 @@ select:focus {
 }
 
 button.btn {
-    padding: 4px;
+    padding: 8px;
     color: #fff;
     background-color: #007bff;
     border: none;
