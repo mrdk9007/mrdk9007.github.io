@@ -79,34 +79,30 @@
 
         </section>
         <!-- Add Crypto Tab -->
-        <section id="add-crypto" class="tab-content subtext">
+        <section id="add-crypto" class="tab-content">
             <form id="add-crypto-form" class="crypto-form">
                 <div class="form-group">
-                    <label for="cryptoDropdown">Select Crypto</label>
+                    <label for="cryptoDropdown" class="main-text">Select Crypto</label>
                     <div class="dropdown">
                         <select id="cryptoDropdown">
                             <!-- Options will be generated here -->
                         </select>
                     </div>
                 </div>
-
                 <div class="form-group">
-                    <label for="crypto-price">Current Price $</label>
+                    <label for="crypto-price" class="main-text">Current Price $</label>
                     <input type="number" id="crypto-price" placeholder="e.g., 30000">
                 </div>
-
                 <div class="form-group">
-                    <label for="crypto-amount">Amount</label>
+                    <label for="crypto-amount" class="main-text">Amount</label>
                     <input type="number" id="crypto-amount" placeholder="e.g., 1200">
                 </div>
-
                 <div class="form-group">
-                    <label for="date">Date</label>
+                    <label for="date" class="main-text">Date</label>
                     <input type="date" id="date">
                 </div>
-
                 <div class="form-group">
-                    <button type="button" class="btn" onclick="addCrypto()">Add Crypto</button>
+                    <button type="button" class="btn main-text" onclick="addCrypto()">Add Crypto</button>
                 </div>
             </form>
         </section>
@@ -120,13 +116,15 @@
 
     </main>
     <!-- Tabs Section -->
-    <footer class="tabs subtext">
+    <footer class="tabs main-text">
         <div class="tab active" data-tab="crypto-cards-container">Crypto Cards</div>
         <div class="tab" data-tab="add-crypto">Add Crypto</div>
         <div class="tab" data-tab="full-analyse">Full Analyse</div>
     </footer>
 
     <script src="app.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <script>
         let tg = window.Telegram.WebApp;
         tg.expand();
