@@ -36,6 +36,7 @@ async function fetchCryptoData() {
         // Iterate over the data (assuming it's an array of crypto assets)
         if (data.length > 0) {
             const dropdown = document.getElementById('cryptoDropdown');
+
             const option = document.createElement('option');
                 option.classList.add('subtext')
                 option.value = "";
@@ -115,11 +116,11 @@ function generateCryptoCard(crypto) {
             <img src="${crypto.icon}" alt="${crypto.name}" style="width: 34px; height: 34px; margin-right: 5px;">
         </div>
         <div class="info">
-            <div class="info-left">${crypto.name}<br>
+            <div class="info-left main-text">${crypto.name}<br>
                 <span class="subtext">${crypto.symbol}: ${crypto.number}</span>
                 
             </div>
-            <div class="info-right">
+            <div class="info-right main-text">
                 $${crypto.balance} (${crypto.portfolioBalancePersantage}%)<br>
                 <span class="subtext">${crypto.price}  
                     <span class="subtext ${crypto.changeMyPrice >= 100 ? 'up' : 'down'}">
@@ -147,6 +148,34 @@ function generateCryptoCard(crypto) {
     const popupContent = document.createElement('div');
     popupContent.classList.add('popup-content');
 
+    const popUpCardHeader = document.createElement('div');
+    popUpCardHeader.classList.add('popup-card-header');
+
+    const popUpHeader = document.createElement('div');
+    popUpHeader.classList.add('main-text');
+    popUpHeader.textContent = 'Details';
+
+    popUpCardHeader.appendChild(popUpHeader)
+
+    const popUpCardButton = document.createElement('div');
+    popUpCardButton.classList.add('popup-content-button');
+    const closeButton = document.createElement('button');
+    closeButton.classList.add('popup-close');
+    closeButton.innerHTML = '<ion-icon name="add-outline"></ion-icon>';
+
+    // Add event listener to close the popup when clicking the close button
+    closeButton.addEventListener('click', (event) => {
+        popupContent.classList.add('close');
+        setTimeout(() => {
+            popupContent.classList.remove('open', 'close');
+            popupContainer.classList.remove('open');
+        }, 300);
+    });
+    popUpCardButton.appendChild(closeButton)
+
+    popUpCardHeader.appendChild(popUpCardButton)
+    popupContent.appendChild(popUpCardHeader);
+
     // Create the card div
     const popUpCard = document.createElement('div');
     popUpCard.classList.add('crypto-card');
@@ -156,7 +185,7 @@ function generateCryptoCard(crypto) {
             <img src="${crypto.icon}" alt="${crypto.name}" style="width: 34px; height: 34px; margin-right: 5px;">
         </div>
         <div class="info">
-            <div class="info-left">${crypto.name}<br>
+            <div class="info-left"><span class="main-text">${crypto.name}</span><br>
                 <span class="subtext">
                     ${crypto.symbol}: ${crypto.number}<br>
                     Average price<br>
@@ -165,8 +194,8 @@ function generateCryptoCard(crypto) {
                 </span>
             </div>
             <div class="info-right">
-                $${crypto.balance} (${crypto.portfolioBalancePersantage}%)<br>
-                <span class="subtext">${crypto.price}  
+                <span class="main-text">$${crypto.balance} (${crypto.portfolioBalancePersantage}%)</span><br>
+                <span class="subtext">$${crypto.price}  
                     <span class="subtext ${crypto.changeMyPrice >= 100 ? 'up' : 'down'}">
                         ${crypto.changeMyPrice >= 100 ? '⬆' : '⬇'}${crypto.changeMyPrice}%
                     </span><br>
@@ -185,7 +214,7 @@ function generateCryptoCard(crypto) {
     popUpOrderHistory.classList.add('crypto-card');
     popUpOrderHistory.classList.add('history');
     popUpOrderHistory.innerHTML = `
-        <div class="info-left">Order history
+        <div class="info-left main-text">Order history
         </div>
     `
 
@@ -213,7 +242,7 @@ function generateCryptoCard(crypto) {
     popUpDiagramLegend.classList.add('legend');
 
     popUpDiagramLegend.innerHTML = `
-        <span>Legend</span>
+        <span class="main-text">Legend</span>
     `;
 
     const popUpDiagramLegendInfo = document.createElement('div');
@@ -224,6 +253,8 @@ function generateCryptoCard(crypto) {
             <div> invested: ${crypto.portfolioInvestedPersantage}%</div>
             <div class="color-block-balance"></div>
             <div> balance: ${crypto.portfolioBalancePersantage}%</div>
+            <div class="color-block-other"></div>
+            <div> other</div>
         </div>
     `;
 
@@ -255,21 +286,7 @@ function generateCryptoCard(crypto) {
 
     popupContent.appendChild(popUpDiagramContainer);
 
-    const closeButton = document.createElement('button');
-    closeButton.classList.add('popup-close');
-    closeButton.textContent = 'Close';
-
-    // Add event listener to close the popup when clicking the close button
-    closeButton.addEventListener('click', (event) => {
-        popupContent.classList.add('close');
-        setTimeout(() => {
-            popupContent.classList.remove('open', 'close');
-            popupContainer.classList.remove('open');
-        }, 300);
-    });
-
-
-    popupContent.appendChild(closeButton);
+    
     popupContainer.appendChild(popupContent);
     card.appendChild(popupContainer);
 
