@@ -198,32 +198,49 @@ header {
     justify-content: space-between;
 }
 
-footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-}
-
 /* Styles for the tabbed interface */
 .tabs {
     display: flex;
     cursor: pointer;
+    border-radius: 8px;
+    position: fixed;
+    bottom: 5px;
+    /*left: 0;*/
+    width: calc(100% - 2*5px);
+    margin: 0 5px;
+    background-color: var(--header-color);
+    opacity: 0.95;
+    
 }
 
 .tab {
     flex: 1;
     padding: 6px;
-    text-align: center;
-    background-color: #ddd;
-    border: 1px solid #ccc;
-    border-radius: 8px 8px 0 0;
-    box-shadow: -1px -5px 15px #ccc;
+    display: grid;
+    place-items: center;
+    /*background-color: #ddd;*/
+    /*border: 1px solid #ccc;
+    box-shadow: -1px -5px 15px #ccc;*/
+    border-radius: 8px;
+    font-size: 25px;
+    color: rgb(129, 129, 129);
+    transition: 0.5s ease;
+    height: 60px;
+    & .text-small {
+        font-size: 14px;
+    }
+    
 }
 
 .tab.active {
-    background-color: #007BFF;
-    color: white;
+    /*background-color: #007BFF;*/
+    transform: scale(1.1);
+    /*font-size: 30px;*/
+    color: rgb(235, 235, 235);
+    filter: drop-shadow(0 0 3px rgba(216, 208, 208, 0.9));
+    /*& .text-small {
+        font-size: 16px;
+    }*/
 }
 
 .tab-content {
@@ -234,7 +251,7 @@ footer {
 
 .tab-content.active {
     display: block;
-    padding-bottom: 40px;
+    padding-bottom: 65px;
 }
 
 /* Add styles for crypto cards */
@@ -394,6 +411,7 @@ footer {
     border: none;
     cursor: pointer;
     transition: 0.5s;
+    transform: rotate(-315deg);
 }
 
 .popup-content .popup-close:hover {
