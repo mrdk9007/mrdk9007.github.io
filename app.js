@@ -580,4 +580,3 @@ function animateMarkToScore(newScore, maxScore) {
         moveMark(currentScore, maxScore);
     }, intervalTime);
 }
-
