@@ -26,34 +26,37 @@ document.querySelectorAll('.tab').forEach(tab => {
 
 
 // Assuming you're getting JSON data from a Google Sheets API or a web app
-const SHEET_API_URL = "https://script.google.com/macros/s/AKfycbxFUbOJrKl-t3MHN9aIfoIuL4pqpPsxtH3TXDBV6aHswelzpKyNYyiPn2xQzp4ryikJsg/exec"; // Replace with your actual Sheets API URL
+const SHEET_API_URL = "https://script.google.com/macros/s/AKfycbzX5g6O6JMM0y_pct2IZB-tEf0jb5aOgQSn8r-J_5aAk4Rai3G_VOBFWgCk8zcy9YGgOQ/exec"; // Replace with your actual Sheets API URL
 
 async function fetchCryptoData() {
     try {
         const response = await fetch(SHEET_API_URL);
         const data = await response.json();
+        var portfolioData = data.portfolioData;
+        var history = data.history
+
 
         // Iterate over the data (assuming it's an array of crypto assets)
-        if (data.length > 0) {
+        if (portfolioData.length > 0) {
             const dropdown = document.getElementById('cryptoDropdown');
 
             const option = document.createElement('option');
-                option.classList.add('subtext')
-                option.value = "";
-                option.selected = true
-                option.disabled = true
-                option.text = `Select a token`;
-                dropdown.appendChild(option);
+            option.classList.add('subtext')
+            option.value = "";
+            option.selected = true
+            option.disabled = true
+            option.text = `Select a token`;
+            dropdown.appendChild(option);
 
             let totalInvest = 0
             let balance = 0
             await new Promise(resolve => setTimeout(resolve, 5500))
             document.getElementById('loading-indicator').classList.remove('active')
 
-            data.forEach(crypto => {
+            portfolioData.forEach(crypto => {
                 totalInvest += crypto.invested
                 balance += crypto.balance;
-                generateCryptoCard(crypto)
+                generateCryptoCard({cardInfo: crypto, history: history[crypto.symbol]})
 
                 const option = document.createElement('option');
                 option.classList.add('subtext')
@@ -101,7 +104,10 @@ async function fetchCryptoData() {
 }
 
 // Generate the crypto card elements dynamically
-function generateCryptoCard(crypto) {
+function generateCryptoCard(data) {
+    //{cardInfo: crypto, history: history[crypto.symbol]}
+    var crypto = data.cardInfo
+    var history = data.history
     const container = document.getElementById('crypto-cards');
 
     // Create the card div
@@ -221,14 +227,35 @@ function generateCryptoCard(crypto) {
     const popUpOrderHistoryInfo = document.createElement('div');
     popUpOrderHistoryInfo.classList.add('card-history-info');
     popUpOrderHistoryInfo.classList.add('subtext');
+    
+    var historyDatesColumns = ""
+    var historyTypesColumns = ""
+    var historyAmountsColumns = ""
+    var historyPriceColumns = ""
+    var historyTotalColumns = ""
 
+    for (line in history) {
+        var historyDatesColumns = `${historyDatesColumns}${history[line].date}<br>`
+        var historyTypesColumns = `${historyTypesColumns}${history[line].type}<br>`
+        var historyAmountsColumns = `${historyAmountsColumns}${history[line].amount} ${crypto.symbol}<br>`
+        var historyPriceColumns = `${historyPriceColumns}$${history[line].price}<br>`
+        var historyTotalColumns = `${historyTotalColumns}$${history[line].total}<br>`
+        
+    }
     popUpOrderHistoryInfo.innerHTML = `
+        <div class="info-left">${historyDatesColumns}</div>
+        <div class="info-center">${historyTypesColumns}</div>
+        <div class="info-right">${historyAmountsColumns}</div>
+        <div class="info-right">${historyPriceColumns}</div>
+        <div class="info-right">${historyTotalColumns}</div>
+    `
+    /*popUpOrderHistoryInfo.innerHTML = `
         <div class="info-left">2022-06-22<br>2022-06-22<br>2022-06-22<br>2022-06-22<br>2022-06-22</div>
         <div class="info-center">bought<br>bought<br>bought<br>stacking<br>sold</div>
         <div class="info-right">3 ${crypto.symbol}<br>3 ${crypto.symbol}<br>3 ${crypto.symbol}<br>3 ${crypto.symbol}<br>-3 ${crypto.symbol}</div>
         <div class="info-right">$42.3<br>$42.3<br>$42.3<br><br>-$42.3</div>
         <div class="info-right">$126.9<br>$126.9<br>$126.9<br><br>-$126.9</div>
-    `;
+    `;*/
     // Append card to the container
 
     popUpOrderHistory.appendChild(popUpOrderHistoryInfo);
@@ -286,7 +313,7 @@ function generateCryptoCard(crypto) {
 
     popupContent.appendChild(popUpDiagramContainer);
 
-    
+
     popupContainer.appendChild(popupContent);
     card.appendChild(popupContainer);
 
@@ -304,11 +331,10 @@ function generateCryptoCard(crypto) {
         }
     });
 
-
-
     const animationOptions = {
         duration: 3000, // Animation duration in milliseconds
-        easing: 'easeInOutBack', // Animation easing style
+        easing: 'easeInOutQuart', // Animation easing style easeInOutBack
+        dalay: 500,
     }
 
     // Generate first chart using Chart.js
