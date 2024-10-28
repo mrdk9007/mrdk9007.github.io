@@ -9,6 +9,11 @@
     --header-color: var(--tg-theme-bg-color, #282c34);
 }
 
+div:focus, div:active {
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -227,7 +232,7 @@ header {
     transition: 0.5s ease;
     height: 60px;
     & .text-small {
-        font-size: 14px;
+        font-size: 8px;
     }
     
 }
