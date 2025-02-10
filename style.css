@@ -9,11 +9,6 @@
     --header-color: var(--tg-theme-bg-color, #282c34);
 }
 
-div:focus, div:active {
-    outline: none;
-    -webkit-tap-highlight-color: transparent;
-}
-
 * {
     margin: 0;
     padding: 0;
@@ -215,26 +210,26 @@ header {
     margin: 0 5px;
     background-color: var(--header-color);
     opacity: 0.95;
-    
+
 }
 
 .tab {
     flex: 1;
-    padding: 6px;
+    padding: 0.5rem;
     display: grid;
     place-items: center;
     /*background-color: #ddd;*/
     /*border: 1px solid #ccc;
     box-shadow: -1px -5px 15px #ccc;*/
     border-radius: 8px;
-    font-size: 25px;
+    font-size: 1.5625rem;
     color: rgb(129, 129, 129);
     transition: 0.5s ease;
-    height: 60px;
+
     & .text-small {
-        font-size: 8px;
+        font-size: 0.875rem;
     }
-    
+
 }
 
 .tab.active {
@@ -256,7 +251,8 @@ header {
 
 .tab-content.active {
     display: block;
-    padding-bottom: 65px;
+    padding-bottom: 70px;
+
 }
 
 /* Add styles for crypto cards */
@@ -270,7 +266,7 @@ header {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     gap: 15px;
-    align-items: center;
+    align-items: start;
 }
 
 .crypto-card {
@@ -301,15 +297,122 @@ header {
     & .history {
         display: block;
     }
+
+
+}
+
+.crypto-card-wallet {
+    min-width: 100%;
+    border: 1px solid #EDEDED;
+    border-radius: 8px;
+    padding: 0.5rem;
+    background-color: #EDEDED;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05),
+        0 2px 8px rgba(0, 0, 0, 0.05),
+        0 2px 12px rgba(0, 0, 0, 0.05),
+        0 2px 15px rgba(0, 0, 0, 0.05);
+
+    & .header {
+        display: flex;
+        min-width: 100%;
+        justify-content: space-between;
+    }
+
+    & .info {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    & .networks {
+        display: none;
+        max-height: 0;
+        transition: max-height 0.4s ease, padding 0.4s ease;
+        padding-bottom: 4px;
+    }
+
+    & .network {
+        padding-bottom: 4px;
+        height: 100%;
+        overflow: hidden;
+        
+        & .wallet,
+        .protocol {
+            padding: 4px 0;
+            display: none;
+            max-height: 0;
+            transition: max-height 0.4s ease, padding 0.4s ease;
+        }
+        & .trasparent {
+            color: transparent;
+        }
+        & .wallet,
+        .protocol:last-child {
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+        }
+    }
+
+    & .network:last-child {
+        padding-bottom: 0;
+    }
+
+    & .network-header {
+        display: flex;
+        padding: 0 4px;
+    }
+
+    & .chain {
+        background-color: rgba(0, 0, 0, 0.05);
+        padding: 4px 0;
+        align-items: center;
+        border-radius: 4px;
+    }
+
+    & .network-header img {
+        width: 1.5rem;
+        height: 1.5rem;
+        margin-right: 5px;
+    }
+
+    & .network-details {
+        width: 100%;
+        padding: 5px 4px 5px calc(1.5rem + 5px);
+        
+    }
+    
+    & .network-details .network-header {
+        padding: 0;
+    }
+    
+    & .network .protocol .network-details .network-detail {
+        padding-left: calc(1.5rem + 5px);
+    }
+
+    & .network-detail {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    & .network .protocol a {
+        text-decoration: none;
+        color: #717171;
+    }
+}
+
+.expanded {
+    grid-row-end: span 10;
 }
 
 .main-text {
-    font-size: 16px;
+    font-size: 1.125rem;
+    /*1rem*/
 }
+
 .subtext {
-    font-size: 12px;
+    font-size: 0.875rem;
     color: #717171;
-    line-height: 1.2;
+    line-height: 1.35;
 }
 
 .info-right {
