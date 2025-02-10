@@ -10,23 +10,105 @@ document.querySelectorAll('.tab').forEach(tab => {
 
         // Show the loading indicator
         const loadingIndicator = tabContent.querySelector('.loading');
-        loadingIndicator.classList.add('active');
+        if (loadingIndicator !== null) {
+            loadingIndicator.classList.add('active')
+        }
 
         // Check if crypto cards are generated before hiding the loading indicator
         const cryptoCards = tabContent.querySelector('.crypto-cards');
-        if (cryptoCards.children.length > 0) {
-            loadingIndicator.classList.remove('active');
-        } else {
-            console.error('Error: Crypto cards not generated');
-        }
 
+        if (cryptoCards !== null) {
+            if (cryptoCards.children.length > 0) {
+                loadingIndicator.classList.remove('active');
+            } else {
+                console.error('Error: Crypto cards not generated');
+            }
+        }
     });
 });
 
+const walletCards = document.querySelectorAll('.crypto-card-wallet');
 
+walletCards.forEach(card => {
+    var header = card.querySelector('.header');
+    header.addEventListener('click', () => {
+        //card.classList.add('expanded')
+        var networks = card.querySelector(".networks")
+        var network = networks.querySelectorAll(".network")
+
+        if (networks.style.display === 'none' || networks.style.display === '') {
+            networks.style.display = 'block'; // Show content
+            networks.style.maxHeight = networks.scrollHeight + 'px'; // Expand to fit content
+            networks.style.padding = '5px 0px 0px 0px'
+
+            console.log(network.length)
+            addNetworkListeners(networks)
+        } else {
+            console.log("closed")
+            removeNetworkListeners(networks)
+
+            networks.style.padding = '0px 0px 4px 0px'
+            networks.style.maxHeight = null; // Collapse the content
+
+            setTimeout(function () {
+                networks.style.display = 'none' // Delay padding reset for smoother animation
+                card.classList.remove('expanded')
+            }, 400)
+        }
+    });
+});
+
+function addNetworkListeners(networks) {
+    const network = networks.querySelectorAll(".network");
+    network.forEach(chain => {
+        const networkHeader = chain.querySelector('.network-header');
+
+        // Check if the listener is already added
+        if (!networkHeader.callback) {
+            const callback = () => toggleNetworkHeader(networkHeader, chain, networks);
+            networkHeader.addEventListener('click', callback);
+            networkHeader.callback = callback; // Save the callback reference
+        }
+    });
+}
+
+function removeNetworkListeners(networks) {
+    const network = networks.querySelectorAll(".network");
+    network.forEach(chain => {
+        const networkHeader = chain.querySelector('.network-header');
+        if (networkHeader.callback) {
+            networkHeader.removeEventListener('click', networkHeader.callback);
+            delete networkHeader.callback; // Clean up the reference
+        }
+    });
+}
+
+function toggleNetworkHeader(networkHeader, chain, networks) {
+    var networkWallet = chain.querySelector(".network .wallet");
+    var networkProtocol = chain.querySelector(".network .protocol");
+
+    if (networkWallet.style.display === 'none' || networkWallet.style.display === '') {
+        networkWallet.style.display = 'block';
+        networkWallet.style.maxHeight = networkWallet.scrollHeight + 'px';
+        networks.style.maxHeight = (networkWallet.scrollHeight + networks.scrollHeight) + 'px';
+
+        networkProtocol.style.display = 'block';
+        networkProtocol.style.maxHeight = networkProtocol.scrollHeight + 'px';
+        networks.style.maxHeight = (networkWallet.scrollHeight + networks.scrollHeight + networkProtocol.scrollHeight) + 'px';
+    } else {
+        networkProtocol.style.maxHeight = null;
+        networkProtocol.style.display = 'none';
+        networkWallet.style.maxHeight = null;
+
+        setTimeout(() => {
+            networkWallet.style.display = 'none';
+            networks.style.maxHeight = (networks.scrollHeight - 0) + 'px';
+        }, 300);
+    }
+}
 
 // Assuming you're getting JSON data from a Google Sheets API or a web app
-const SHEET_API_URL = "https://script.google.com/macros/s/AKfycbzX5g6O6JMM0y_pct2IZB-tEf0jb5aOgQSn8r-J_5aAk4Rai3G_VOBFWgCk8zcy9YGgOQ/exec"; // Replace with your actual Sheets API URL
+const SHEET_API_URL = "https://script.google.com/macros/s/AKfycbws3D2LhbG-ozJ2tAaYjA1I_2INZNZJtovNBTuXrjwO0Ja_ahJRvorArPahz-PCMY6ZHA/exec"; // Replace with your actual Sheets API URL
 
 async function fetchCryptoData() {
     try {
@@ -34,7 +116,7 @@ async function fetchCryptoData() {
         const data = await response.json();
         var portfolioData = data.portfolioData;
         var history = data.history
-
+        var walletData = data.walletData
 
         // Iterate over the data (assuming it's an array of crypto assets)
         if (portfolioData.length > 0) {
@@ -56,7 +138,7 @@ async function fetchCryptoData() {
             portfolioData.forEach(crypto => {
                 totalInvest += crypto.invested
                 balance += crypto.balance;
-                generateCryptoCard({cardInfo: crypto, history: history[crypto.symbol]})
+                generateCryptoCard({ cardInfo: crypto, history: history[crypto.symbol] })
 
                 const option = document.createElement('option');
                 option.classList.add('subtext')
@@ -81,10 +163,12 @@ async function fetchCryptoData() {
             document.getElementById('total-ratio').innerHTML = `<span class="price ${ratio >= 100 ? 'up' : 'down'}">
                 ${ratio >= 100 ? '⬆' : '⬇'}(${ratio.toLocaleString()}%)
             </span>`
-
-
         }
-
+        if (walletData.length > 0) {
+            walletData.forEach(data => {
+                createWalletCard(data)
+            })
+        }
 
     } catch (error) {
         console.error('Error fetching data:', error);
@@ -119,7 +203,7 @@ function generateCryptoCard(data) {
 
     card.innerHTML = `
         <div class="icon">
-            <img src="${crypto.icon}" alt="${crypto.name}" style="width: 34px; height: 34px; margin-right: 5px;">
+            <img src="${crypto.icon}" alt="${crypto.name}" style="width: 2.5rem; height: 2.5rem; margin-right: 5px;">
         </div>
         <div class="info">
             <div class="info-left main-text">${crypto.name}<br>
@@ -137,14 +221,7 @@ function generateCryptoCard(data) {
             </div>
         </div>
     `;
-    /*<p>Current price: 
-            My price: $${crypto.myPrice}
-        </p>
-        <p>
-            Invected: $<span id="amount">${crypto.invested}</span> (${crypto.portfolioInvestedPersantage}%)
-        </p>
-        */
-    //card.appendChild(cryptoInfo);
+
     container.appendChild(card);
 
 
@@ -227,7 +304,7 @@ function generateCryptoCard(data) {
     const popUpOrderHistoryInfo = document.createElement('div');
     popUpOrderHistoryInfo.classList.add('card-history-info');
     popUpOrderHistoryInfo.classList.add('subtext');
-    
+
     var historyDatesColumns = ""
     var historyTypesColumns = ""
     var historyAmountsColumns = ""
@@ -240,7 +317,7 @@ function generateCryptoCard(data) {
         var historyAmountsColumns = `${historyAmountsColumns}${history[line].amount} ${crypto.symbol}<br>`
         var historyPriceColumns = `${historyPriceColumns}$${history[line].price}<br>`
         var historyTotalColumns = `${historyTotalColumns}$${history[line].total}<br>`
-        
+
     }
     popUpOrderHistoryInfo.innerHTML = `
         <div class="info-left">${historyDatesColumns}</div>
@@ -579,4 +656,104 @@ function animateMarkToScore(newScore, maxScore) {
         scoreValue.textContent = `${currentScore.toFixed(2)}x`;
         moveMark(currentScore, maxScore);
     }, intervalTime);
+}
+
+function createWalletCard(walletData) {
+    const container = document.getElementById('crypto-wallets');
+
+    const card = document.createElement("div");
+    card.classList.add("crypto-card-wallet");
+    let walletAddress = walletData.address.slice(0, 6) + "..." + walletData.address.slice(-4)
+
+    card.innerHTML = `
+        <div class="header main-text">
+            <div class="info-left">
+                <h4>${walletData.name}</h4>
+                <span class="subtext">${walletAddress}</span>
+            </div>
+            <div class="info-right">
+                <br>$${(walletData.balance).toFixed(2)}
+            </div>
+        </div>
+        <div class="networks">
+            ${walletData.chains.map(chain => `
+                <div class="network">
+                    <div class="network-header chain main-text">
+                        <div class="icon">
+                            <img src="${chain.icon}" alt="${chain.name}">
+                        </div>
+                        <div class="network-header info">
+                            <div class="info-left">${chain.name}</div>
+                            <div class="info-right">$${(chain.balance).toFixed(2)} (${(100 * chain.balance / walletData.balance).toFixed(2)}%)</div>
+                        </div>
+                    </div>
+                    <div class="network wallet">
+                        <div class="network-header info main-text">
+                            <div class="info-left">Wallet</div>
+                            <div class="info-right">$${(chain.walletBalance).toFixed(2)} (${(100 * chain.walletBalance / chain.balance).toFixed(2)}%)</div>
+                        </div>
+                        <div class="network-details subtext">
+                            ${chain.wallet.map(detail => `
+                                <div class="network-detail">
+                                    <div class="info-left">${detail.name}: ${detail.amount}</div>
+                                    <div class="info-right">$${(detail.balance).toFixed(2)} (${(100 * detail.balance / chain.walletBalance).toFixed(2)}%)</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    <div class="network protocol">
+                        <div class="network-header info main-text">
+                            <div class="info-left">Protocols</div>
+                            <div class="info-right">$${(chain.protocolBalance).toFixed(2)} (${(100 * chain.protocolBalance / chain.balance).toFixed(2)}%)</div>
+                        </div>
+                        <div class="network-details subtext">
+                            ${chain.protocols.map(protocol => `
+                                <div class="network-header">
+                                    <div class="icon">
+                                        <img src="${protocol.icon}" alt="${protocol.name}">
+                                    </div>
+                                    <div class="network-header info main-text">
+                                        <div class="info-left">
+                                            <a href="${protocol.link}" target="_blank">${protocol.name}</a>
+                                        </div>
+                                        <div class="info-right">$${(protocol.platformBalance).toFixed(2)} (${(100 * protocol.platformBalance / chain.balance).toFixed(2)}%)</div>
+                                    </div>
+                                </div>
+                                ${protocol.token.map(detail => `
+                                    <div class="network-detail">
+                                        <div class="info-left">${detail.name}: ${detail.amount} (${detail.positionType})</div>
+                                        <div class="info-right">$${(detail.balance).toFixed(2)} (${(100 * detail.balance / protocol.platformBalance).toFixed(2)}%)</div>
+                                    </div>
+                                `).join('')}
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `).join('')}
+        </div>
+    `
+    container.appendChild(card);
+
+    // Add event listener to toggle networks
+    const header = card.querySelector(".header");
+    const networks = card.querySelector(".networks");
+
+    header.addEventListener("click", () => {
+        if (networks.style.display === "none" || networks.style.display === "") {
+            networks.style.display = "block";
+            networks.style.maxHeight = networks.scrollHeight + "px";
+            networks.style.padding = "5px 0px 0px 0px";
+
+            addNetworkListeners(networks);
+        } else {
+            removeNetworkListeners(networks);
+            networks.style.padding = "0px 0px 4px 0px";
+            networks.style.maxHeight = null;
+
+            setTimeout(() => {
+                networks.style.display = "none";
+                card.classList.remove("expanded");
+            }, 400);
+        }
+    });
 }
