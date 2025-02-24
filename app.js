@@ -1,5 +1,3 @@
-const userInfo = 'https://api.telegram.org/7905862853:AAHeVutVAEKdVgoWstS-RSTQCQhi7UeVwIs/getMe'
-
 // JavaScript to toggle between tabs
 document.querySelectorAll('.tab').forEach(tab => {
     tab.addEventListener('click', async function () {
@@ -114,7 +112,7 @@ function toggleNetworkHeader(networkHeader, chain, networks) {
 }
 
 // Assuming you're getting JSON data from a Google Sheets API or a web app
-const SHEET_API_URL = "https://script.google.com/macros/s/AKfycbzXvaRokm5WTiqZ6aRAyFxJTp45jQmNrd9wGO8H-Yt3WL3fb685YiBiLktZjh6Kn6s9-w/exec"; // Replace with your actual Sheets API URL
+const SHEET_API_URL = "https://script.google.com/macros/s/AKfycbx8DBYJaMMQJeDE9vum5hBNjLZxqXv5PJtR3_EEkRw2Lma82PDP_VAioX1EWaJXzMvg/exec"; // Replace with your actual Sheets API URL
 
 async function fetchCryptoData() {
     try {
