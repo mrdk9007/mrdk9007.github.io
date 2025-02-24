@@ -545,21 +545,13 @@
     <script>
         let tg = window.Telegram.WebApp
         tg.expand()
-        const TelegramBot = require('node-telegram-bot-api')
-        const TOKEN = '7905862853:AAHeVutVAEKdVgoWstS-RSTQCQhi7UeVwIs';
-        const bot = new TelegramBot(TOKEN, { polling: true })
+        try {
+            console.log("userId first: %s", window.Telegram.WebAppUser.id)
+        } catch (e) {
+            let webUser = tg.WebAppUser
+            console.log("userId second: %s", webUser.id)
+        }
 
-        // Устанавливаем команды бота
-        bot.setMyCommands([
-            { command: '/getid', description: 'Получить мой Telegram ID' }
-        ]);
-
-        // Обрабатываем команду /getid
-        bot.onText(/\/getid/, (msg) => {
-            const userId = msg.from.id;
-            console.log(userId);
-            bot.sendMessage(userId, `Ваш Telegram ID: ${userId}`);
-        })
     </script>
 
 </body>
