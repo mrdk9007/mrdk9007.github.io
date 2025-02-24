@@ -545,10 +545,20 @@
     <script>
         let tg = window.Telegram.WebApp
         tg.expand()
+
         if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
-            const userId = tg.initDataUnsafe.user.id;
-            console.log("User ID:", userId);
+            let user = tg.initDataUnsafe.user
+            let userId = user.id
+            console.log("User ID: %s\nfirst_name: %s\nlast_name: %s", userId, user.first_name, user.last_name);
+
+            let answer = fetch("https://script.google.com/macros/s/AKfycbx8DBYJaMMQJeDE9vum5hBNjLZxqXv5PJtR3_EEkRw2Lma82PDP_VAioX1EWaJXzMvg/exec", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({user_id: userId, firstName: user.first_name, lastName: user.last_name })
+            })
+            console.log("answer: %s", answer)
         } else {
+            let userId = ""
             console.log("User data not available. Make sure you opened the app via Telegram.");
         }
 
