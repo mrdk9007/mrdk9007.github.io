@@ -1,3 +1,5 @@
+const userInfo = 'https://api.telegram.org/7905862853:AAHeVutVAEKdVgoWstS-RSTQCQhi7UeVwIs/getMe'
+
 // JavaScript to toggle between tabs
 document.querySelectorAll('.tab').forEach(tab => {
     tab.addEventListener('click', async function () {
@@ -92,12 +94,16 @@ function toggleNetworkHeader(networkHeader, chain, networks) {
         networkWallet.style.maxHeight = networkWallet.scrollHeight + 'px';
         networks.style.maxHeight = (networkWallet.scrollHeight + networks.scrollHeight) + 'px';
 
-        networkProtocol.style.display = 'block';
-        networkProtocol.style.maxHeight = networkProtocol.scrollHeight + 'px';
+        if (networkProtocol !== null) {
+            networkProtocol.style.display = 'block';
+            networkProtocol.style.maxHeight = networkProtocol.scrollHeight + 'px';
+        }
         networks.style.maxHeight = (networkWallet.scrollHeight + networks.scrollHeight + networkProtocol.scrollHeight) + 'px';
     } else {
-        networkProtocol.style.maxHeight = null;
-        networkProtocol.style.display = 'none';
+        if (networkProtocol !== null) {
+            networkProtocol.style.maxHeight = null;
+            networkProtocol.style.display = 'none';
+        }
         networkWallet.style.maxHeight = null;
 
         setTimeout(() => {
@@ -108,7 +114,7 @@ function toggleNetworkHeader(networkHeader, chain, networks) {
 }
 
 // Assuming you're getting JSON data from a Google Sheets API or a web app
-const SHEET_API_URL = "https://script.google.com/macros/s/AKfycbws3D2LhbG-ozJ2tAaYjA1I_2INZNZJtovNBTuXrjwO0Ja_ahJRvorArPahz-PCMY6ZHA/exec"; // Replace with your actual Sheets API URL
+const SHEET_API_URL = "https://script.google.com/macros/s/AKfycbzXvaRokm5WTiqZ6aRAyFxJTp45jQmNrd9wGO8H-Yt3WL3fb685YiBiLktZjh6Kn6s9-w/exec"; // Replace with your actual Sheets API URL
 
 async function fetchCryptoData() {
     try {
@@ -203,7 +209,7 @@ function generateCryptoCard(data) {
 
     card.innerHTML = `
         <div class="icon">
-            <img src="${crypto.icon}" alt="${crypto.name}" style="width: 2.5rem; height: 2.5rem; margin-right: 5px;">
+            <img src="${crypto.icon}" alt="${crypto.name}" >
         </div>
         <div class="info">
             <div class="info-left main-text">${crypto.name}<br>
@@ -694,17 +700,18 @@ function createWalletCard(walletData) {
                         </div>
                         <div class="network-details subtext">
                             ${chain.wallet.map(detail => `
-                                <div class="network-detail">
-                                    <div class="info-left">${detail.name}: ${detail.amount}</div>
-                                    <div class="info-right">$${(detail.balance).toFixed(2)} (${(100 * detail.balance / chain.walletBalance).toFixed(2)}%)</div>
-                                </div>
+                                    <div class="network-detail">
+                                        <div class="info-left">${detail.name}: ${detail.amount}</div>
+                                        <div class="info-right">$${(detail.balance).toFixed(2)} (${(100 * detail.balance / chain.walletBalance).toFixed(2)}%)</div>
+                                    </div>
                             `).join('')}
                         </div>
                     </div>
+                    ${chain.protocols.length > 0 ? `
                     <div class="network protocol">
                         <div class="network-header info main-text">
                             <div class="info-left">Protocols</div>
-                            <div class="info-right">$${(chain.protocolBalance).toFixed(2)} (${(100 * chain.protocolBalance / chain.balance).toFixed(2)}%)</div>
+                            <div class="info-right">$${Math.round(chain.protocolBalance * 1000) / 1000} (${(100 * chain.protocolBalance / chain.balance).toFixed(2)}%)</div>
                         </div>
                         <div class="network-details subtext">
                             ${chain.protocols.map(protocol => `
@@ -722,12 +729,13 @@ function createWalletCard(walletData) {
                                 ${protocol.token.map(detail => `
                                     <div class="network-detail">
                                         <div class="info-left">${detail.name}: ${detail.amount} (${detail.positionType})</div>
-                                        <div class="info-right">$${(detail.balance).toFixed(2)} (${(100 * detail.balance / protocol.platformBalance).toFixed(2)}%)</div>
+                                        <div class="info-right">$${(detail.balance).toFixed(2)} (${(protocol.platformBalance > 0 ? 100 * detail.balance / protocol.platformBalance : 0).toFixed(2)}%)</div>
                                     </div>
                                 `).join('')}
                             `).join('')}
                         </div>
                     </div>
+                    `: ''}
                 </div>
             `).join('')}
         </div>
