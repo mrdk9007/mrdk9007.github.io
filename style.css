@@ -281,11 +281,17 @@ header {
         0 2px 12px rgba(0, 0, 0, 0.05),
         0 2px 15px rgba(0, 0, 0, 0.05);
 
-
-    & .icon {
+    .icon {
         display: flex;
         justify-content: center;
         align-items: center;
+        margin-right: 5px;
+
+        & img {
+            width: 2.5rem;
+            height: 2.5rem;
+
+        }
     }
 
     & .info {
@@ -330,23 +336,30 @@ header {
         max-height: 0;
         transition: max-height 0.4s ease, padding 0.4s ease;
         padding-bottom: 4px;
+
+        & .icon {
+            display: flex;
+            align-items: center;
+        }
     }
 
     & .network {
         padding-bottom: 4px;
         height: 100%;
         overflow: hidden;
-        
+
         & .wallet,
         .protocol {
-            padding: 4px 0;
+            padding: 0 0 4px 0;
             display: none;
             max-height: 0;
             transition: max-height 0.4s ease, padding 0.4s ease;
         }
+
         & .trasparent {
             color: transparent;
         }
+
         & .wallet,
         .protocol:last-child {
             border-top: 1px solid rgba(0, 0, 0, 0.05);
@@ -359,12 +372,12 @@ header {
 
     & .network-header {
         display: flex;
-        padding: 0 4px;
+        padding: 4px;
     }
 
     & .chain {
         background-color: rgba(0, 0, 0, 0.05);
-        padding: 4px 0;
+        
         align-items: center;
         border-radius: 4px;
     }
@@ -377,14 +390,14 @@ header {
 
     & .network-details {
         width: 100%;
-        padding: 5px 4px 5px calc(1.5rem + 5px);
-        
+        padding: 0 4px 0 calc(1.5rem + 5px);
+
     }
-    
+
     & .network-details .network-header {
-        padding: 0;
+        padding: 4px 0 0 0;
     }
-    
+
     & .network .protocol .network-details .network-detail {
         padding-left: calc(1.5rem + 5px);
     }
