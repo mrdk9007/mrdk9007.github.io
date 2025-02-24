@@ -545,11 +545,11 @@
     <script>
         let tg = window.Telegram.WebApp
         tg.expand()
-        try {
-            console.log("userId first: %s", window.Telegram.WebAppUser.id)
-        } catch (e) {
-            let webUser = tg.WebAppUser
-            console.log("userId second: %s", webUser.id)
+        if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
+            const userId = tg.initDataUnsafe.user.id;
+            console.log("User ID:", userId);
+        } else {
+            console.log("User data not available. Make sure you opened the app via Telegram.");
         }
 
     </script>
