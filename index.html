@@ -551,12 +551,12 @@
             let userId = user.id
             console.log("User ID: %s\nfirst_name: %s\nlast_name: %s", userId, user.first_name, user.last_name);
 
-            let answer = fetch("https://script.google.com/macros/s/AKfycbwFJvr6QleqJNmG1csz7b2npsFVmkXN2kwjR-UTRV0e3Ly2Hqciz5EX72tVseXnnMJZ0Q/exec", {
+            /*let answer = fetch("https://script.google.com/macros/s/AKfycbwFJvr6QleqJNmG1csz7b2npsFVmkXN2kwjR-UTRV0e3Ly2Hqciz5EX72tVseXnnMJZ0Q/exec", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({user_id: userId, firstName: user.first_name, lastName: user.last_name })
             })
-            console.log("answer: %s", answer)
+            console.log("answer: %s", answer)*/
         } else {
             let userId = ""
             console.log("User data not available. Make sure you opened the app via Telegram.");
