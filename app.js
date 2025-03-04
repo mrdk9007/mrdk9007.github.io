@@ -112,7 +112,7 @@ function toggleNetworkHeader(networkHeader, chain, networks) {
 }
 
 // Assuming you're getting JSON data from a Google Sheets API or a web app
-const SHEET_API_URL = "https://script.google.com/macros/s/AKfycbx8DBYJaMMQJeDE9vum5hBNjLZxqXv5PJtR3_EEkRw2Lma82PDP_VAioX1EWaJXzMvg/exec"; // Replace with your actual Sheets API URL
+const SHEET_API_URL = "https://script.google.com/macros/s/AKfycbzXKDip5DTL4mcOpV6PI5ABH6h9Yd2StPaxQrFQHyRsf8N_marH95VraorHobwdxgSJ2w/exec"; // Replace with your actual Sheets API URL
 
 async function fetchCryptoData() {
     try {
