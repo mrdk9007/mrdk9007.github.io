@@ -1074,3 +1074,40 @@ function validateDecimal(input) {
     updatePreview()
 }
 window.validateDecimal = validateDecimal
+
+function loadChart(symbol, containerId ) {
+            new TradingView.widget({
+                container_id: containerId,
+                width: "100%",
+                height: "325px",
+                symbol,
+                interval: "D",
+                timezone: "Etc/UTC",
+                theme: "light",
+                style: "1",
+                locale: "en",
+                enable_publishing: false,
+                allow_symbol_change: false,
+            });
+
+        }
+
+        function loadTradingViewCharts () {
+            const chartsWrapper = document.getElementById("tradingview_charts")
+            
+            const symbols = ["CRYPTOCAP:TOTAL", "CRYPTOCAP:TOTAL2", "CRYPTOCAP:TOTAL3", "CRYPTOCAP:BTC.D", "CRYPTOCAP:ETH.D", "(CRYPTOCAP:TOTAL3-CRYPTOCAP:USDT)/CRYPTOCAP:BTC", "(CRYPTOCAP:TOTAL3-CRYPTOCAP:USDT)/CRYPTOCAP:ETH", "CRYPTOCAP:OTHERS", "CRYPTOCAP:ETH.D/CRYPTOCAP:OTHERS.D"];
+            
+            symbols.forEach(symbol => {
+                const chartCount = chartsWrapper.children.length + 1
+                const chartContainer = document.createElement("div");
+                chartContainer.className = "chart";
+                let idName = "tradingview_chart_" + chartCount;
+                chartContainer.id = idName
+                chartContainer.setAttribute("data-id", chartCount);
+                chartsWrapper.appendChild(chartContainer);
+
+                loadChart(symbol, idName )
+            });
+    
+        }
+        loadTradingViewCharts ()
