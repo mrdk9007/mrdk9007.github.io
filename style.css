@@ -444,8 +444,6 @@ header {
 
 }*/
 
-.card-history-info {}
-
 .history-line {
     width: 100%;
     display: grid;
@@ -575,6 +573,7 @@ header {
     right: 5px;
     top: 5px;
 }
+
 .popup-content .popup-close:hover,
 .popup-close-order:hover,
 .remove-btn:hover {
@@ -706,6 +705,7 @@ button:hover {
     background-color: #fcc;
     border-color: #f00;
 }
+
 .notification.success {
     background-color: rgb(224, 255, 204);
     border-color: rgb(0, 255, 0);
@@ -772,6 +772,7 @@ button:hover {
     background-color: #45a049;
     transform: scale(1.1);
 }
+
 input[type="text"],
 input[type="number"],
 input[type="date"],
@@ -833,6 +834,7 @@ button.btn:hover {
         0 2px 12px rgba(0, 0, 0, 0.05),
         0 2px 15px rgba(0, 0, 0, 0.05);
 }
+
 /* Media Query for Larger Screens */
 @media (max-width: 1584px) {
     .crypto-cards {
