@@ -302,6 +302,7 @@ header {
 
     & .history {
         display: block;
+        min-width: 100%;
     }
 
 
@@ -377,7 +378,7 @@ header {
 
     & .chain {
         background-color: rgba(0, 0, 0, 0.05);
-        
+
         align-items: center;
         border-radius: 4px;
     }
@@ -436,15 +437,25 @@ header {
     text-align: center;
 }
 
-.card-history-info {
+/*.card-history-info {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     justify-content: space-between;
 
+}*/
+
+.card-history-info {}
+
+.history-line {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    justify-content: space-between;
 }
 
 /* Add styles for the popup container and content */
-.crypto-card .popup-container {
+.crypto-card .popup-container,
+.crypto-card .popup-container-order {
     position: fixed;
     top: 0;
     left: 0;
@@ -454,18 +465,24 @@ header {
     display: none;
     justify-content: center;
     align-items: center;
+}
+
+.crypto-card .popup-container {
     z-index: 10;
 }
 
-.crypto-card .popup-content {
+.crypto-card .popup-container-order {
+    z-index: 11;
+}
+
+.crypto-card .popup-content,
+.crypto-card .popup-content-order {
     background-color: #fff;
     padding: 8px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     width: 99%;
     max-width: 800px;
-    height: 100%;
-    overflow-y: auto;
     transform: translateY(100%);
     transition: transform 0.3s ease-in-out;
 
@@ -473,6 +490,17 @@ header {
         display: flex;
         align-items: start;
     }
+}
+
+.crypto-card .popup-content {
+    height: 100%;
+    overflow-y: auto;
+}
+
+.crypto-card .popup-content-order {
+    height: 30%;
+    position: fixed;
+    bottom: 0;
 }
 
 .popup-card-header {
@@ -483,11 +511,13 @@ header {
 }
 
 
-.crypto-card .popup-container.open {
+.crypto-card .popup-container.open,
+.crypto-card .popup-container-order.open {
     display: flex;
 }
 
-.crypto-card .popup-content.open {
+.crypto-card .popup-content.open,
+.crypto-card .popup-content-order.open {
     transform: translateY(0);
     animation: slideUp 0.3s forwards;
 
@@ -496,10 +526,12 @@ header {
     }
 }
 
-.crypto-card .popup-content.close {
+.crypto-card .popup-content.close,
+.crypto-card .popup-content-order.close {
     transform: translateY(100%);
     animation: slideDown 0.3s forwards;
 }
+
 
 @keyframes slideUp {
     from {
@@ -521,7 +553,10 @@ header {
     }
 }
 
-.popup-content .popup-close {
+
+.popup-content .popup-close,
+.popup-close-order,
+.remove-btn {
     height: 20px;
     width: 20px;
     display: flex;
@@ -535,14 +570,20 @@ header {
     transform: rotate(-315deg);
 }
 
-.popup-content .popup-close:hover {
+.remove-btn {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+}
+.popup-content .popup-close:hover,
+.popup-close-order:hover,
+.remove-btn:hover {
     background-color: #ccc;
     transform: rotate(315deg);
 }
 
 .legend {
     width: 35%;
-
 }
 
 .legend-info {
@@ -599,72 +640,19 @@ button {
     color: white;
     border: none;
     cursor: pointer;
+    padding: 5px;
+    border-radius: 5px;
 }
 
 button:hover {
     background-color: #0056b3;
 }
 
-
-/* Media Query for Larger Screens */
-@media (max-width: 1584px) {
-    .crypto-cards {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 15px;
-    }
-
-    .crypto-card {
-        width: 100%;
-    }
-}
-
-@media (max-width: 1080px) {
-    .crypto-cards {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 15px;
-    }
-
-    .crypto-card {
-        width: 100%;
-    }
-}
-
-@media (max-width: 767px) {
-    .crypto-cards {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 15px;
-    }
-
-    .crypto-card {
-        width: 100%;
-    }
-}
-
-@media (max-width: 530px) {
-    .crypto-cards {
-        display: grid;
-        grid-template-columns: repeat(1, 1fr);
-        gap: 8px;
-        margin: 0;
-    }
-
-    .crypto-card {
-        width: 100%;
-        padding: 5px;
-    }
+/*******statistics*******/
 
 
-
-    .crypto-info {
-        width: 100%;
-
-        & .icon {
-            align-items: center;
-        }
-    }
+.switches {
+    margin-bottom: 10px;
 }
 
 
@@ -718,10 +706,25 @@ button:hover {
     background-color: #fcc;
     border-color: #f00;
 }
+.notification.success {
+    background-color: rgb(224, 255, 204);
+    border-color: rgb(0, 255, 0);
+}
 
-.crypto-form {
+.forms-wrapper {
     display: grid;
-    max-width: 100%;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px 8px;
+    margin-bottom: 8px;
+}
+
+.form-container {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    justify-content: space-between;
+    gap: 8px 20px;
+    width: 100%;
     margin: 0 auto;
     border: 1px solid #EDEDED;
     border-radius: 8px;
@@ -733,8 +736,12 @@ button:hover {
         0 2px 15px rgba(0, 0, 0, 0.05);
 }
 
+.hidden {
+    display: none;
+}
+
 .form-group {
-    margin-bottom: 8px;
+
     display: flex;
     flex-direction: column;
 }
@@ -744,6 +751,28 @@ button:hover {
     font-weight: 600;
 }
 
+.add-new-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+.save-btn {
+    display: flex;
+    background-color: #4CAF50;
+    font-size: 16px;
+    justify-content: center;
+    align-items: center;
+    padding: 8px;
+    border-radius: 50%;
+    transition: 0.25s;
+}
+
+.save-btn:hover {
+    background-color: #45a049;
+    transform: scale(1.1);
+}
+input[type="text"],
 input[type="number"],
 input[type="date"],
 select {
@@ -785,4 +814,104 @@ button.btn {
 
 button.btn:hover {
     background-color: #0056b3;
+}
+
+.chart-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px 8px;
+}
+
+.chart {
+    width: 100%;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05),
+        0 2px 8px rgba(0, 0, 0, 0.05),
+        0 2px 12px rgba(0, 0, 0, 0.05),
+        0 2px 15px rgba(0, 0, 0, 0.05);
+}
+/* Media Query for Larger Screens */
+@media (max-width: 1584px) {
+    .crypto-cards {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 15px;
+    }
+
+    .crypto-card {
+        width: 100%;
+    }
+
+    .forms-wrapper {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (max-width: 1080px) {
+    .crypto-cards {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+    }
+
+    .crypto-card {
+        width: 100%;
+    }
+
+    .forms-wrapper {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .chart-container {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
+
+@media (max-width: 767px) {
+    .crypto-cards {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+
+    .crypto-card {
+        width: 100%;
+    }
+
+    .forms-wrapper {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 530px) {
+    .crypto-cards {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        gap: 8px;
+        margin: 0;
+    }
+
+    .crypto-card {
+        width: 100%;
+        padding: 5px;
+    }
+
+    .crypto-info {
+        width: 100%;
+
+        & .icon {
+            align-items: center;
+        }
+    }
+
+    .forms-wrapper {
+        grid-template-columns: repeat(1, 1fr);
+    }
 }
