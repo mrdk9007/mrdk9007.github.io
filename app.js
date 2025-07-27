@@ -35,6 +35,7 @@ document.querySelectorAll('.tab').forEach(tab => {
         document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
 
         this.classList.add('active');
+        console.log("Tab clicked:", this.dataset.tab);
         const tabContent = document.getElementById(this.dataset.tab);
         tabContent.classList.add('active');
 
@@ -290,7 +291,11 @@ async function fetchCryptoData() {
             let totalInvest = 0
             let balance = 0
             await new Promise(resolve => setTimeout(resolve, 5500))
-            document.getElementById('loading-indicator').classList.remove('active')
+            let loadings = document.querySelectorAll('.loading');
+            loadings.forEach(loading => {
+                loading.classList.remove('active')
+            })
+            //document.getElementById('loading-indicator').classList.remove('active')
             portfolioData.forEach(crypto => {
                 totalInvest += crypto.invested
                 balance += crypto.balance;
@@ -657,6 +662,9 @@ function generateCryptoCard(data) {
 
 // Initialize and fetch the data
 fetchCryptoData()
+setTimeout(() => {
+            loadTradingViewCharts ()
+        }, 1200);
 
 
 // Refresh button to manually fetch new data
@@ -936,31 +944,40 @@ async function addForm() {
     const formContainer = document.createElement("div");
     formContainer.className = "form-container";
     formContainer.setAttribute("data-id", formCount);
+    
+    let formType = ["bought", "sold", "airdrop", "reward", "staking", "farming", "other"]
+    let formTypeOptions = formType.map(type =>
+                `<option class="subtext" value="${type}">${type}</option>`
+            ).join("")
 
     console.log(dropdownOptions)
     formContainer.innerHTML = `<div class="form-group">
                     <label for="cryptoDropdown" class="main-text">Select token</label>
                     <div class="dropdown">
-                        <select id="cryptoDropdown" oninput="updatePreview(this)">
+                        <select id="cryptoDropdown" onchange="updatePreview(this)">
                             ${dropdownOptions}
                         </select>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="type" class="main-text">Type</label>
-                    <input type="text" name='type' placeholder="buy | sell | reward" required>
+                    <div class="dropdown">
+                        <select id="type" name='type' class="dropdown" onchange="updatePreview(this)">
+                                ${formTypeOptions}
+                        </select>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="crypto-amount" class="main-text">Amount</label>
-                    <input type="number" name='amount' min="0" placeholder="e.g., 1200" oninput="validateDecimal(this)" required>
+                    <input type="number" name='amount' min="0" placeholder="e.g., 1200" onchange="validateDecimal(this) updatePreview(this)" required >
                 </div>
                 <div class="form-group">
                     <label for="crypto-price" class="main-text">Price $</label>
-                    <input type="text" name='price' pattern="^\\d+(\\.\\d{1,2})?$" placeholder="0.00" oninput="validateDecimal(this)" required>
+                    <input type="text" name='price' pattern="^\\d+(\\.\\d{1,2})?$" placeholder="0.00" onchange="validateDecimal(this) updatePreview(this)" required>
                 </div>
                 <div class="form-group">
                     <label for="date" class="main-text">Date</label>
-                    <input type="date" name='date' oninput="updatePreview(this)">
+                    <input type="date" name='date' onchange="updatePreview(this)">
                 </div>
                 <button class="remove-btn" onclick="removeForm(${formCount})"><ion-icon name="add-outline"></ion-icon></button>`
     //formContainer.insertBefore(tokenSelect, formContainer.firstChild);
@@ -1002,13 +1019,16 @@ async function saveData() {
 
     forms.forEach(form => {
         const tokenName = form.querySelector("#cryptoDropdown").value;
-        const amount = form.querySelector("[name='amount']").value;
+        let amount = form.querySelector("[name='amount']").value;
         const price = form.querySelector("[name='price']").value;
         const date = form.querySelector("[name='date']").value;
-        const type = form.querySelector("[name='type']").value;
+        const type = form.querySelector("#type").value;
 
         if (tokenName && amount && price && date && type) {
-            data.push({ token_name: tokenName, amount: Number(amount), price: Number(price), date: date, type: type, total: Number((Number(amount) * Number(price)).toFixed(2)) });
+            if (type === "sold") {
+                amount = Number(amount) * (-1)
+            }
+            data.push({ token_name: tokenName, amount: amount, price: Number(price), date: date, type: type, total: Number((amount * Number(price)).toFixed(2)) });
         }
     });
 
@@ -1028,11 +1048,14 @@ function updatePreview() {
     forms.forEach((formContainer) => {
 
         const tokenName = formContainer.querySelector('#cryptoDropdown')?.value || '';
-        const type = formContainer.querySelector('input[name="type"]')?.value || '';
+        const type = formContainer.querySelector('#type')?.value || '';
         const price = formContainer.querySelector('input[name="price"]')?.value || '';
-        const amount = formContainer.querySelector('input[name="amount"]')?.value || '';
+        let amount = formContainer.querySelector('input[name="amount"]')?.value || '';
         const date = formContainer.querySelector('input[name="date"]')?.value || '';
-
+        
+        if (type === "sold") {
+            amount = Number(amount) * (-1);
+        }
         console.log("tokenName: %s\namount: %s\nprice: %s\ndate: %s", tokenName, amount, price, date);
         if (tokenName && amount && price && type && date) {
             const listItem = document.createElement("div")
@@ -1076,38 +1099,37 @@ function validateDecimal(input) {
 window.validateDecimal = validateDecimal
 
 function loadChart(symbol, containerId ) {
-            new TradingView.widget({
-                container_id: containerId,
-                width: "100%",
-                height: "325px",
-                symbol,
-                interval: "D",
-                timezone: "Etc/UTC",
-                theme: "light",
-                style: "1",
-                locale: "en",
-                enable_publishing: false,
-                allow_symbol_change: false,
-            });
+    new TradingView.widget({
+        container_id: containerId,
+        width: "100%",
+        height: "325px",
+        symbol,
+        interval: "D",
+        timezone: "Etc/UTC",
+        theme: "light",
+        style: "1",
+        locale: "en",
+        enable_publishing: false,
+        allow_symbol_change: false,
+    });
 
-        }
+}
 
-        function loadTradingViewCharts () {
-            const chartsWrapper = document.getElementById("tradingview_charts")
+function loadTradingViewCharts () {
+    const chartsWrapper = document.getElementById("tradingview_charts")
             
-            const symbols = ["CRYPTOCAP:TOTAL", "CRYPTOCAP:TOTAL2", "CRYPTOCAP:TOTAL3", "CRYPTOCAP:BTC.D", "CRYPTOCAP:ETH.D", "(CRYPTOCAP:TOTAL3-CRYPTOCAP:USDT)/CRYPTOCAP:BTC", "(CRYPTOCAP:TOTAL3-CRYPTOCAP:USDT)/CRYPTOCAP:ETH", "CRYPTOCAP:OTHERS", "CRYPTOCAP:ETH.D/CRYPTOCAP:OTHERS.D"];
+    const symbols = ["CRYPTOCAP:TOTAL", "CRYPTOCAP:TOTAL2", "CRYPTOCAP:TOTAL3", "CRYPTOCAP:BTC.D", "CRYPTOCAP:ETH.D", "(CRYPTOCAP:TOTAL3-CRYPTOCAP:USDT)/CRYPTOCAP:BTC", "(CRYPTOCAP:TOTAL3-CRYPTOCAP:USDT)/CRYPTOCAP:ETH", "CRYPTOCAP:OTHERS", "CRYPTOCAP:ETH.D/CRYPTOCAP:OTHERS.D"];
             
-            symbols.forEach(symbol => {
-                const chartCount = chartsWrapper.children.length + 1
-                const chartContainer = document.createElement("div");
-                chartContainer.className = "chart";
-                let idName = "tradingview_chart_" + chartCount;
-                chartContainer.id = idName
-                chartContainer.setAttribute("data-id", chartCount);
-                chartsWrapper.appendChild(chartContainer);
+    symbols.forEach(symbol => {
+        const chartCount = chartsWrapper.children.length + 1
+        const chartContainer = document.createElement("div");
+        chartContainer.className = "chart";
+        let idName = "tradingview_chart_" + chartCount;
+        chartContainer.id = idName
+        chartContainer.setAttribute("data-id", chartCount);
+        chartsWrapper.appendChild(chartContainer);
 
-                loadChart(symbol, idName )
-            });
+        loadChart(symbol, idName )
+    });
     
-        }
-        loadTradingViewCharts ()
+}
