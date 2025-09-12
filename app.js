@@ -9,9 +9,7 @@ async function getUserDataFromSupabase(telegram_id, initData) {
   });*/
   console.log("getUserDataFromSupabase", telegram_id, initData)
   const { data, error } = await supabase.functions.invoke('get-user-data', {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({initData: initData})
+    body: { initData }
   });
   if (error) {
     console.error("Ошибка Supabase:", error);
@@ -1141,6 +1139,7 @@ function loadTradingViewCharts () {
     });
     
 }
+
 
 
 
