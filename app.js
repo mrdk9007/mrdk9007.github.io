@@ -3,11 +3,15 @@ const supabaseUrl = 'https://yfawoztamzvkjknfixci.supabase.co'; // Replace with 
 const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlmYXdvenRhbXp2a2prbmZpeGNpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA5Mjk4NTYsImV4cCI6MjA2NjUwNTg1Nn0.h5-TUPamo9GtOkCamDTPy0gYsfR5qSTQ0ygQVlnosYU'; // Replace with your Supabase public API key
 const supabase = createClient(supabaseUrl, supabaseAnonKey); 
 
-async function getUserDataFromSupabase(telegram_id) {
-    const { data, error } = await supabase.functions.invoke('get-user-data', {
+async function getUserDataFromSupabase(telegram_id, initData) {
+  /*const { data, error } = await supabase.functions.invoke('get-user-data', {
     body: { telegram_id },
+  });*/
+  const { data, error } = await supabase.functions.invoke('get-user-data', {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ initData }),
   });
-
   if (error) {
     console.error("Ошибка Supabase:", error);
     return null;
@@ -240,7 +244,7 @@ function getTelegramUserId() {
         console.log("Error accessing Telegram WebApp:", error);
     }
 
-    return telegram_id
+    return {telegram_id: telegram_id, initData: tg.initData}
 }
 window.fetchCryptoData = fetchCryptoData
 async function fetchCryptoData() {
@@ -248,7 +252,10 @@ async function fetchCryptoData() {
     const response = await fetch("http://127.0.0.1:5000/add_data"); // Замени на свой API URL
     const cards = await response.json();
     console.log(cards)*/
-    let telegram_id = getTelegramUserId()
+    //let telegram_id = getTelegramUserId()
+    let telegramData  = getTelegramUserId()
+    let telegram_id  = telegramData['telegram_id']
+    let initData  = telegramData['initData']//{telegram_id: telegram_id, initData: tg.initData}
     
     try {
         /**********************get data from spreadsheet******************************/
@@ -270,7 +277,7 @@ async function fetchCryptoData() {
         const data = await server.json();*/
 
         /**********************get data from supabase******************************/
-        let data = await getUserDataFromSupabase(telegram_id)
+        let data = await getUserDataFromSupabase(telegram_id, initData)
         var portfolioData = data.portfolioData;
         var history = data.history
         var walletData = data.walletData
@@ -1133,3 +1140,4 @@ function loadTradingViewCharts () {
     });
     
 }
+
