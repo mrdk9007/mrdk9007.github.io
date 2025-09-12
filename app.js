@@ -7,6 +7,7 @@ async function getUserDataFromSupabase(telegram_id, initData) {
   /*const { data, error } = await supabase.functions.invoke('get-user-data', {
     body: { telegram_id },
   });*/
+  console.log("getUserDataFromSupabase", telegram_id, initData)
   const { data, error } = await supabase.functions.invoke('get-user-data', {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -256,7 +257,7 @@ async function fetchCryptoData() {
     let telegramData  = getTelegramUserId()
     let telegram_id  = telegramData['telegram_id']
     let initData  = telegramData['initData']//{telegram_id: telegram_id, initData: tg.initData}
-    
+    console.log("telData", telegram_id, initData)
     try {
         /**********************get data from spreadsheet******************************/
         /*const response = await fetch(SHEET_API_URL);
@@ -1140,6 +1141,7 @@ function loadTradingViewCharts () {
     });
     
 }
+
 
 
 
