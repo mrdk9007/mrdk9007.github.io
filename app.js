@@ -227,7 +227,7 @@ const SHEET_API_URL = "https://script.google.com/macros/s/AKfycbzDUAluskxKpPgRg5
 let dropdownOptions = ""
 
 function getTelegramUserId() {
-    //let telegram_id = 682611621
+    let telegram_id = 682611621
     try {
         let tg = window.Telegram.WebApp
 
@@ -1019,7 +1019,7 @@ function clearFormData() {
 }
 window.clearFormData = clearFormData
 async function saveData() {
-    let telegram_id  = getTelegramUserId()
+    let telegram_id  = getTelegramUserId()['telegram_id']
     const forms = document.querySelectorAll(".form-container");
     let data = [];
 
@@ -1139,6 +1139,7 @@ function loadTradingViewCharts () {
     });
     
 }
+
 
 
 
