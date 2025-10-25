@@ -1019,7 +1019,8 @@ function clearFormData() {
 }
 window.clearFormData = clearFormData
 async function saveData() {
-    let telegram_id = getTelegramUserId()['telegram_id']
+    let telegramData  = getTelegramUserId()
+    let telegram_id  = telegramData['telegram_id']
     const forms = document.querySelectorAll(".form-container");
     let data = [];
 
@@ -1139,6 +1140,7 @@ function loadTradingViewCharts () {
     });
     
 }
+
 
 
 
