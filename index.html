@@ -105,20 +105,7 @@
         <section id="full-analyse" class="tab-content">
             <h2>Full Analysis</h2>
             <p>Placeholder for full portfolio analysis</p>
-            <!--
-            <div id="bubble-container" class="bubble-container"></div>
-            <div class="switches">
-                <div class="switch active" data-symbol="BINANCE:BTCUSDT">BTC</div>
-                <div class="switch" data-symbol="BINANCE:ETHUSDT">ETH</div>
-                <div class="switch" data-symbol="BINANCE:SOLUSDT">SOL</div>
-                <div class="switch" data-symbol="CRYPTOCAP:OTHERS">others</div>
-                <div class="switch" data-symbol="CRYPTOCAP:TOTAL">Общий рынок (TOTAL)</div>
-                <div class="switch" data-symbol="CRYPTOCAP:TOTAL2">Рынок без BTC (TOTAL2)</div>
-                <div class="switch" data-symbol="CRYPTOCAP:TOTAL3">Рынок без BTC и ETH (TOTAL3)</div>
-                <div class="switch" data-symbol="CRYPTOCAP:BTC.D">BTC Dominance</div>
-                <div class="switch" data-symbol="CRYPTOCAP:ETH.D">ETH Dominance</div>
-            </div>
-            -->
+            
             <div id="tradingview_charts" class="chart-container">
                 
             </div>
@@ -174,16 +161,7 @@
         </section>
 
     </main>
-    <!-- Tabs Section -->
-    <!-- 
-    <footer class="tabs main-text">
-        <div class="tab active" data-tab="crypto-cards-container"><ion-icon
-                name="briefcase-outline"></ion-icon><br><span class="text-small">Assets</span></div>
-        <div class="tab" data-tab="add-crypto"><ion-icon name="add-circle-outline"></ion-icon><br><span
-                class="text-small">Add new</span></div>
-        <div class="tab" data-tab="full-analyse"><ion-icon name="bar-chart-outline"></ion-icon><br><span
-                class="text-small">Statistics</span></div>
-    </footer>
+    
      -->
 
     <nav>
@@ -215,11 +193,6 @@
             let userId = user.id
             console.log("User ID: %s\nfirst_name: %s\nlast_name: %s", userId, user.first_name, user.last_name);
 
-            /*let answer = fetch("https://script.google.com/macros/s/AKfycbx8DBYJaMMQJeDE9vum5hBNjLZxqXv5PJtR3_EEkRw2Lma82PDP_VAioX1EWaJXzMvg/exec", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({user_id: userId, firstName: user.first_name, lastName: user.last_name })
-            })*/
             console.log("answer: %s", answer)
         } else {
             let userId = ""
@@ -232,3 +205,4 @@
 </body>
 
 </html>
+
