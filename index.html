@@ -189,9 +189,7 @@
         if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
             let user = tg.initDataUnsafe.user
             let userId = user.id
-            console.log("User ID: %s\nfirst_name: %s\nlast_name: %s", userId, user.first_name, user.last_name);
-
-            console.log("answer: %s", answer)
+            console.log("User ID: %s\nfirst_name: %s\nlast_name: %s", userId, user.first_name, user.last_name)
         } else {
             let userId = ""
             console.log("User data not available. Make sure you opened the app via Telegram.");
@@ -203,5 +201,6 @@
 </body>
 
 </html>
+
 
 
