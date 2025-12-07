@@ -1,4 +1,4 @@
-import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'; // Ensure this import is correct
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2"; // Ensure this import is correct
 const supabaseUrl = 'https://yfawoztamzvkjknfixci.supabase.co'; // Replace with your Supabase project URL
 const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlmYXdvenRhbXp2a2prbmZpeGNpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA5Mjk4NTYsImV4cCI6MjA2NjUwNTg1Nn0.h5-TUPamo9GtOkCamDTPy0gYsfR5qSTQ0ygQVlnosYU'; // Replace with your Supabase public API key
 const supabase = createClient(supabaseUrl, supabaseAnonKey); 
@@ -1139,6 +1139,7 @@ function loadTradingViewCharts () {
     });
     
 }
+
 
 
 
