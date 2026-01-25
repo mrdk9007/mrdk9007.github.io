@@ -13,6 +13,7 @@ async function getUserDataFromSupabase(telegram_id, initData) {
   });
   if (error) {
     console.error("Ошибка Supabase:", error);
+    sendNotification(error.message, 'error')
     return null;
   }
 
@@ -277,6 +278,7 @@ async function fetchCryptoData() {
 
         /**********************get data from supabase******************************/
         let data = await getUserDataFromSupabase(telegram_id, initData)
+        if (!data) return
         var portfolioData = data.portfolioData;
         var history = data.history
         var walletData = data.walletData
@@ -1139,6 +1141,7 @@ function loadTradingViewCharts () {
     });
     
 }
+
 
 
 
